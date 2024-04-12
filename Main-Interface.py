@@ -161,7 +161,10 @@ def listTextFiles(directory):
         if os.path.isfile(filePath):
             textFiles.append(filePath)
     makeFile = "not"
-    while makeFile not in validAnswers["all"]: #asks user if they want to make a new file
+    if len(textFiles) < 2:
+        print("you don't have anyfiles yet let's make one")
+        makeFile = "yes"
+    while makeFile not in validAnswers["all"]: #asks user if they want to make a new file SELECTS FILE
         makeFile = input("Would you like to create a file yes/no: ").lower().strip()
     if makeFile in validAnswers["no"]:
         while True:
@@ -175,14 +178,15 @@ def listTextFiles(directory):
             else:
                 print("Please enter a valid file name\n")
                 continue
-    if makeFile in validAnswers["yes"]: #makes new file from user input
+    if makeFile in validAnswers["yes"]: #makes new file from user input CREATES FILE
         while True:
             try:
                 filename = input("enter the your file name: ") #asks user for file name
-                printFileName = (f"{filename}.txt") #used to give the user a nice filename create in the console 
+                printFileName = (f"{filename}.txt") #used to give the user a nice filename create in the console  and used for selecting the file
                 filename = open(r"{0}\{1}.txt".format(directory,filename),"x") #creates the file
                 filename.close() #closes the file
                 print(f"{printFileName} Succesfully Created") #confirms the file was created with the usr
+                selectedFile = (r"{0}\{1}".format(directory,printFileName))
                 break 
             except FileExistsError: #if file already exists tells user to try another name
                 print("File already exists")
