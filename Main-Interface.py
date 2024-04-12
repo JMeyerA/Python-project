@@ -47,9 +47,6 @@ def userConfermation(info): #confirms that the data they entered is correct feed
 #class that handles if account exists and creating an account
 # also stores new account in accounts.txt
 class accountCreate:
-    #name of text file stored as variable in the class
-    
-
 
     #initialize and define self accounts file
     def __init__(self, accountFile="accounts.txt"):
