@@ -43,7 +43,7 @@ class accountCreate:
         else:
             #creating account and writing to text file
             with open(self.accountFile, "a") as file:
-                file.write(f"{username},{password}\n")
+                file.write(f"\n{username},{password}")
             return "Account created successfully."
 
     #account already exists
@@ -170,7 +170,6 @@ def listTextFiles(directory):
             print("")
             selectedFile = input("Please Enter the name of the file you want to select (without .txt): ") #asks user to name a to open file
             selectedFile = (r"user-Docs\{0}\{1}.txt".format(username,selectedFile))
-            print(f"you have selected {selectedFile}")
             if selectedFile in textFiles:
                 break
             else:
@@ -219,7 +218,7 @@ elif loginDone in validAnswers["no"]:
     print("Quitting Program............")
     os._exit(0)
 
-                                                                                                    #Text editor code starts here
+                                                                                                    #Text editor  functions code starts here
 #Text editor functions
 def readFile(): #reads the file out to the user
     
@@ -273,7 +272,7 @@ def restartCode():
     return restart #returns value to main code
 '''end of text editor functions'''
    
-#code starts here     
+                                                                                                # file edit code starts here     
 while True:
     print(f"You have selected {selectedFile}") #tells user what file is selected
     userediting = openFile() #runs the edit function
