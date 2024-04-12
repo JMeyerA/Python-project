@@ -154,40 +154,41 @@ def listTextFiles(directory):
     # List all text files in a given directory.
     textFiles = []
     displayNames = []
+    selectedFile = ""
     for filename in os.listdir(directory):
         displayNames.append(filename)
         filePath = os.path.join(directory, filename)
         if os.path.isfile(filePath):
             textFiles.append(filePath)
-            makeFile = "not"
-            while makeFile not in validAnswers["all"]: #asks user if they want to make a new file
-                makeFile = input("Would you like to create a file yes/no: ").lower().strip()
-            if makeFile in validAnswers["no"]:
-                while True:
-                    print(filename)
-                    print(textFiles, sep= "\n")
-                    selectedFile = input("Please Enter the name of the file you want to select (without .txt): ") #asks user to name a to open file
-                    selectedFile = (r"user-Docs\{0}\{1}.txt".format(username,selectedFile))
-                    print(f"you have selected {selectedFile}")
-                    if selectedFile in textFiles:
-                        break
-                    else:
-                        print("Please enter a valid file name\n")
-                        continue
+    makeFile = "not"
+    while makeFile not in validAnswers["all"]: #asks user if they want to make a new file
+        makeFile = input("Would you like to create a file yes/no: ").lower().strip()
+    if makeFile in validAnswers["no"]:
+        while True:
+            print("")
+            print(*displayNames, sep= "\n")
+            print("")
+            selectedFile = input("Please Enter the name of the file you want to select (without .txt): ") #asks user to name a to open file
+            selectedFile = (r"user-Docs\{0}\{1}.txt".format(username,selectedFile))
+            print(f"you have selected {selectedFile}")
+            if selectedFile in textFiles:
                 break
-            if makeFile in validAnswers["yes"]: #makes new file from user input
-                while True:
-                    try:
-                        filename = input("enter the your file name: ") #asks user for file name
-                        printFileName = (f"{filename}.txt") #used to give the user a nice filename create in the console 
-                        filename = open(f"user-Docs\{username}\{filename}.txt","x") #creates the file
-                        filename.close() #closes the file
-                        print(f"{printFileName} Succesfully Created") #confirms the file was created with the usr
-                        break 
-                    except FileExistsError: #if file already exists tells user to try another name
-                        print("File already exists")
-                        print("Try another file name \n")
-                        continue
+            else:
+                print("Please enter a valid file name\n")
+                continue
+    if makeFile in validAnswers["yes"]: #makes new file from user input
+        while True:
+            try:
+                filename = input("enter the your file name: ") #asks user for file name
+                printFileName = (f"{filename}.txt") #used to give the user a nice filename create in the console 
+                filename = open(f"user-Docs\{username}\{filename}.txt","x") #creates the file
+                filename.close() #closes the file
+                print(f"{printFileName} Succesfully Created") #confirms the file was created with the usr
+                break 
+            except FileExistsError: #if file already exists tells user to try another name
+                print("File already exists")
+                print("Try another file name \n")
+                continue
     return textFiles,selectedFile
 
 def selectOperationalFile(directory):
@@ -198,7 +199,6 @@ def selectOperationalFile(directory):
         return textFiles[0]  # Return the first text file found
     else:
         return None
-
 
 
 
