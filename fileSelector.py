@@ -4,13 +4,14 @@
 # File Picker
 
 import os
-
+'''
 def isTextFile(filePath):
     
     # Check if a file is a text file based on its extension.
     textExtensions = ['.txt', '.csv', '.py', '.html', '.xml']  # Add more text file extensions if needed
     _, fileExtension = os.path.splitext(filePath)
     return fileExtension.lower() in textExtensions
+'''
 
 def listTextFiles(directory):
     
@@ -18,8 +19,9 @@ def listTextFiles(directory):
     textFiles = []
     for filename in os.listdir(directory):
         filePath = os.path.join(directory, filename)
-        if os.path.isfile(filePath) and isTextFile(filePath):
+        if os.path.isfile(filePath):
             textFiles.append(filePath)
+            print(textFiles)
     return textFiles
 
 def selectOperationalFile(directory):
@@ -31,7 +33,8 @@ def selectOperationalFile(directory):
     else:
         return None
 
-
+username = "jack"
+listTextFiles(f"user-Docs\\{username}")
 ############
 # How this code can be used with the complete code 
 ############

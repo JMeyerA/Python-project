@@ -15,7 +15,7 @@ validAnswers = {} # dictonary of acepted answers
 validAnswers["no"] = ["no","n"] #adding a list to the dictonary
 validAnswers["yes"] = ["yes","y","ye"] #adding a list to the dictonary
 validAnswers["all"] = ["no","n","yes","y","ye"]
-
+username = ""
      
 ''' end of setup code'''
 
@@ -123,11 +123,28 @@ main()
 
 #file selector functions starts here
 
+def listTextFiles(directory):
+    
+    # List all text files in a given directory.
+    textFiles = []
+    for filename in os.listdir(directory):
+        filePath = os.path.join(directory, filename)
+        if os.path.isfile(filePath):
+            textFiles.append(filePath)
+            print(textFiles)
+    return textFiles
 
-'''for the file selector if the entire thing could be in a big function so it can be called again for the user to select another file :)'''
+def selectOperationalFile(directory):
+    
+    # Select a text file from a given directory.
+    textFiles = listTextFiles(directory)
+    if textFiles:
+        return textFiles[0]  # Return the first text file found
+    else:
+        return None
 
 
-
+listTextFiles(f"user-Docs\\{username}")
 
 #end of file selector functions
 
