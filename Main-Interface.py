@@ -103,11 +103,12 @@ def main():
         if choice == "login":
             while True:
                 try:
+                    print("Usernames are caps sensative \n")
                     username = input("Enter your username: ").strip()
                     password = input("Enter your password: ").strip()
                     print(f"is {username} {password} Correct?")
                     if input("Yes/No: ") in validAnswers["yes"]:
-                        print("testing credentials")
+                        print("Testing Credentials\n")
                     else:
                         continue
                 except:
@@ -122,10 +123,14 @@ def main():
                     break
             #if user chooses create, have them create account
         elif choice == "create":
-            username = input("Choose a username: ").strip()
+            print("Usernames are caps sensative \n")
+            username = input("Choose a username: ").strip()             
             password = input("Choose a password: ").strip()
-            os.mkdir(f"user-Docs\\{username}")
-            print(account_manager.createAccount(username, password))
+            if (account_manager.createAccount(username, password)) != "Account already exists.":
+                os.mkdir(f"user-Docs\\{username}")
+            else:
+                print("Please try another username\n")
+                continue
             #make sure user inputs valid choice
         else:
             print("Invalid choice. Please type 'login' or 'create'.")
@@ -148,18 +153,21 @@ def listTextFiles(directory):
     
     # List all text files in a given directory.
     textFiles = []
+    displayNames = []
     for filename in os.listdir(directory):
+        displayNames.append(filename)
         filePath = os.path.join(directory, filename)
         if os.path.isfile(filePath):
             textFiles.append(filePath)
-            makeFile = ""
+            makeFile = "not"
             while makeFile not in validAnswers["all"]: #asks user if they want to make a new file
                 makeFile = input("Would you like to create a file yes/no: ").lower().strip()
             if makeFile in validAnswers["no"]:
                 while True:
-                    print(textFiles)
-                    selectedFile = input("Please Enter the name of the file you want with out .txt: ") #asks user to name a to open file
-                    selectedFile = (f"user-Docs\\{username}\\{selectedFile}.txt")
+                    print(filename)
+                    print(textFiles, sep= "\n")
+                    selectedFile = input("Please Enter the name of the file you want to select (without .txt): ") #asks user to name a to open file
+                    selectedFile = (r"user-Docs\{0}\{1}.txt".format(username,selectedFile))
                     print(f"you have selected {selectedFile}")
                     if selectedFile in textFiles:
                         break
@@ -168,11 +176,19 @@ def listTextFiles(directory):
                         continue
                 break
             if makeFile in validAnswers["yes"]: #makes new file from user input
-                filename = input("enter the your file name: ")
-                filename = open(f"user-Docs\\{username}\\{filename}.txt","x")
-                print(f"{filename} Succesfully Created")
-                break
-    return textFiles
+                while True:
+                    try:
+                        filename = input("enter the your file name: ") #asks user for file name
+                        printFileName = (f"{filename}.txt") #used to give the user a nice filename create in the console 
+                        filename = open(f"user-Docs\{username}\{filename}.txt","x") #creates the file
+                        filename.close() #closes the file
+                        print(f"{printFileName} Succesfully Created") #confirms the file was created with the usr
+                        break 
+                    except FileExistsError: #if file already exists tells user to try another name
+                        print("File already exists")
+                        print("Try another file name \n")
+                        continue
+    return textFiles,selectedFile
 
 def selectOperationalFile(directory):
     
@@ -191,8 +207,14 @@ def selectOperationalFile(directory):
                                                                                                     #code starts HERE
 loginDone,username = main()
 if loginDone in validAnswers["yes"]:
-    print("Continuing to file selector\n")
-    selectedFile = listTextFiles(f"user-Docs\\{username}")
+    while True:
+        print("Continuing to file selector\n")
+        testFiles,selectedFile = listTextFiles(f"user-Docs\{username}")
+        if len(selectedFile) < 1:
+            print("You don't have anyfiles in your folder try creating one")
+            continue
+        else:
+            break
 elif loginDone in validAnswers["no"]:
     print("Quitting Program............")
     os._exit(0)
@@ -204,15 +226,19 @@ def readFile(): #reads the file out to the user
     #selected file goes into function
     #opens the file
     #prints contents of file to user for viewing4
-    
-    file = open(f"{selectedFile}","r") #opens the file
+    print(f"Opening {selectedFile}")
+    file = open(r"{0}".format(selectedFile),"r") #opens the file
+    print("Printing Contents of File\n")
     print(f"\n{file.read()}") #prints out the file into the cmd for the user to read
+    print("\nEnd of File")
     file.close()
+    
 def editFile():
     #takes selected file 
     #opens file in notepad
     print("Opening Notepad")
     os.system(f"notepad {selectedFile}") #opens the selected file in notepad.exe
+    
 def openFile(): #used to ask user if they want to edit or read the file
     #asks the user what they would like to do with the selected file
     #returns the users choice to the main code
@@ -241,8 +267,8 @@ def restartCode():
     #if users says yes then code returns true restart value
     restart = ""
     while restart not in validAnswers["all"]: #will loop until a valid answer is inputed 
-        print("Would You Like to Select a Diffrent File")
-        print("\nPlease Enter Valid Response of Yes/No\n ")
+        print("\nWould You Like to Select a Diffrent File")
+        print("Please Enter Valid Response of Yes/No\n ")
         restart = input(": ").strip().lower()
     return restart #returns value to main code
 '''end of text editor functions'''
@@ -252,11 +278,11 @@ while True:
     print(f"You have selected {selectedFile}") #tells user what file is selected
     userediting = openFile() #runs the edit function
     if userediting == True: #if the user selected editing 
-        input("Please Hit enter once the file is done being edited") #if the user is in notepad waits for user to hit enter before continuing
+        input("Please Hit enter once the file is done being edited and saved\n") #if the user is in notepad waits for user to hit enter before continuing
     restart = restartCode() #runs restart code function to see if the user wants to pick a new file
         
     if restart in validAnswers["no"]:
-        if input("Would you like to quit the program? ") in validAnswers["yes"]:
+        if input("Would you like to quit the program? Y/N ") in validAnswers["yes"]:
             os._exit(0)
         continue
     elif restart in validAnswers["yes"]:
