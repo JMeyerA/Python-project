@@ -1,7 +1,1 @@
-<<<<<<< HEAD
 Jack,Secret55
-=======
-Jack,Secret55
-test,test
-john,test
->>>>>>> 2e2b57dcc6a698952ea537fb26a67b03486fb793
