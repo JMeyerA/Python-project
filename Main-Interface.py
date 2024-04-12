@@ -121,6 +121,7 @@ def main():
 
     #prompt user to see if they'd like to log in or create an account
     while True:
+        print("Welcome to the python text editor!")
         choice = input("Do you want to login or create an account? (login/create): ").lower()
         #user chooses login then have user login
         if choice == "login":
