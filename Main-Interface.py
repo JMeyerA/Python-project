@@ -181,7 +181,7 @@ def listTextFiles(directory):
             try:
                 filename = input("enter the your file name: ") #asks user for file name
                 printFileName = (f"{filename}.txt") #used to give the user a nice filename create in the console 
-                filename = open(f"user-Docs\{username}\{filename}.txt","x") #creates the file
+                filename = open(r"user-Docs\{0}\{1}.txt".format(username,filename),"x") #creates the file
                 filename.close() #closes the file
                 print(f"{printFileName} Succesfully Created") #confirms the file was created with the usr
                 break 
@@ -209,7 +209,7 @@ loginDone,username = main()
 if loginDone in validAnswers["yes"]:
     while True:
         print("Continuing to file selector\n")
-        testFiles,selectedFile = listTextFiles(f"user-Docs\{username}")
+        testFiles,selectedFile = listTextFiles(r"user-Docs\{0}".format(username))
         if len(selectedFile) < 1:
             print("You don't have anyfiles in your folder try creating one")
             continue
