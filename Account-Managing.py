@@ -12,7 +12,7 @@ class accountCreate:
 
 
     #initialize and define self accounts file
-    def __init__(self, accountFile='accounts.txt'):
+    def __init__(self, accountFile="accounts.txt"):
         self.accountFile = accountFile
 
     #account creation
@@ -28,7 +28,7 @@ class accountCreate:
             return "Account already exists."
         else:
             #creating account and writing to text file
-            with open(self.accountFile, 'a') as file:
+            with open(self.accountFile, "a") as file:
                 file.write(f"{username},{password}\n")
             return "Account created successfully."
 
@@ -39,10 +39,10 @@ class accountCreate:
         #function checks if account already exists
         try:
             #here check if username is already in use
-            with open(self.accountFile, 'r') as file:
+            with open(self.accountFile, "r") as file:
                 #check each line for correct username
                 for line in file:
-                    if line.split(',')[0] == username:
+                    if line.split(",")[0] == username:
                         return True
             return False
         except FileNotFoundError:
@@ -52,7 +52,7 @@ class LoginManager:
 #class for managing login
     
     #initialize class to define account file name
-    def __init__(self, accountFile='accounts.txt'):
+    def __init__(self, accountFile="accounts.txt"):
         self.accountFile = accountFile
 
     #login 
@@ -61,10 +61,10 @@ class LoginManager:
         #output user logs in
         #include error checking
         try:
-            with open(self.accountFile, 'r') as file:
+            with open(self.accountFile, "r") as file:
                 #loop checking file for input matching stored data and login return invalid if no data matching
                 for line in file:
-                    user, passw = line.strip().split(',')
+                    user, passw = line.strip().split(",")
                     if user == username and passw == password:
                         return "Login successful."
             return "Invalid username or password."
@@ -83,12 +83,12 @@ def main():
     while True:
         choice = input("Do you want to login or create an account? (login/create): ").lower()
         #user chooses login then have user login
-        if choice == 'login':
+        if choice == "login":
             username = input("Enter your username: ")
             password = input("Enter your password: ")
             print(login_manager.login(username, password))
             #if user chooses create, have them create account
-        elif choice == 'create':
+        elif choice == "create":
             username = input("Choose a username: ")
             password = input("Choose a password: ")
             print(account_manager.createAccount(username, password))
@@ -97,7 +97,7 @@ def main():
             print("Invalid choice. Please type 'login' or 'create'.")
         
         #here program ends if they do nt want to continue
-        if input("Do you want to continue? (yes/no): ").lower() == 'no':
+        if input("Do you want to continue? (yes/no): ").lower() == "no":
             break
 #call main function so user can login or create account
 main()
