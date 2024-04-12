@@ -1,7 +1,17 @@
+# 
 # Final Python Project Word editor
-# Jack Meyer Evan Belrose Sparsh Gosalia
+# Jack Meyer, Evan Belrose, Sparsh Gosalia
 # Date: 2024-04-05
 # File Reader/editor
+# Discription:
+# This code is a file manager for users
+# The user can make or login to an existing account 
+# once they do that they can see all their files or be prompted to make new ones if they don't have any
+# The editor will select the file that the user choices or creates
+# the code will then let them open the file in notepad 
+# or read the file 
+# The code then asks if they want to quit the program or select a new file
+#
 '''start of setup code'''
 import os #imports os library
 import platform #imports platform to check the OS platform for Combatibilty
