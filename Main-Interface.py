@@ -1,5 +1,5 @@
 # Final Python Project Word editor
-# Jack Meyer
+# Jack Meyer Evan Belrose
 # Date: 2024-04-05
 # File Reader/editor
 '''start of setup code'''
