@@ -127,7 +127,7 @@ def main():
             username = input("Choose a username: ").strip()             
             password = input("Choose a password: ").strip()
             if (account_manager.createAccount(username, password)) != "Account already exists.":
-                os.mkdir(f"user-Docs\\{username}")
+                os.mkdir(r"user-Docs\\{0}".format(username))
             else:
                 print("Please try another username\n")
                 continue
@@ -169,7 +169,7 @@ def listTextFiles(directory):
             print(*displayNames, sep= "\n")
             print("")
             selectedFile = input("Please Enter the name of the file you want to select (without .txt): ") #asks user to name a to open file
-            selectedFile = (r"user-Docs\{0}\{1}.txt".format(username,selectedFile))
+            selectedFile = (r"{0}\{1}.txt".format(directory,selectedFile))
             if selectedFile in textFiles:
                 break
             else:
@@ -180,7 +180,7 @@ def listTextFiles(directory):
             try:
                 filename = input("enter the your file name: ") #asks user for file name
                 printFileName = (f"{filename}.txt") #used to give the user a nice filename create in the console 
-                filename = open(r"user-Docs\{0}\{1}.txt".format(username,filename),"x") #creates the file
+                filename = open(r"{0}\{1}.txt".format(directory,filename),"x") #creates the file
                 filename.close() #closes the file
                 print(f"{printFileName} Succesfully Created") #confirms the file was created with the usr
                 break 
@@ -227,7 +227,7 @@ def readFile(): #reads the file out to the user
     #prints contents of file to user for viewing4
     print(f"Opening {selectedFile}")
     file = open(r"{0}".format(selectedFile),"r") #opens the file
-    print("Printing Contents of File\n")
+    print("Printing Contents of File")
     print(f"\n{file.read()}") #prints out the file into the cmd for the user to read
     print("\nEnd of File")
     file.close()
@@ -279,10 +279,10 @@ while True:
     if userediting == True: #if the user selected editing 
         input("Please Hit enter once the file is done being edited and saved\n") #if the user is in notepad waits for user to hit enter before continuing
     restart = restartCode() #runs restart code function to see if the user wants to pick a new file
-        
     if restart in validAnswers["no"]:
         if input("Would you like to quit the program? Y/N ") in validAnswers["yes"]:
             os._exit(0)
         continue
     elif restart in validAnswers["yes"]:
-        selectedFile = listTextFiles(f"user-Docs\\{username}")
+        print(username)
+        testFiles, selectedFile = listTextFiles(r"user-Docs\{0}".format(username))
