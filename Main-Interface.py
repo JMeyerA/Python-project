@@ -84,7 +84,8 @@ class LoginManager:
             return "Invalid username or password."
         except FileNotFoundError:
             return "Account file not found."
-
+        except ValueError:
+            return "Invalid Credentials Entered"
 # Main program that directs user to create account or login
 def main():
     #main function that handles if an account will be made or user logs in
@@ -95,27 +96,47 @@ def main():
 
     #prompt user to see if they'd like to log in or create an account
     while True:
+        loginDone = ""
         print("Welcome to the python text editor!")
-        choice = input("Do you want to login or create an account? (login/create): ").lower()
+        choice = input("Do you want to login or create an account? (login/create): ").lower().strip()
         #user chooses login then have user login
         if choice == "login":
-            username = input("Enter your username: ")
-            password = input("Enter your password: ")
-            print(login_manager.login(username, password))
+            while True:
+                try:
+                    username = input("Enter your username: ").strip()
+                    password = input("Enter your password: ").strip()
+                    print(f"is {username} {password} Correct?")
+                    if input("Yes/No: ") in validAnswers["yes"]:
+                        print("testing credentials")
+                    else:
+                        continue
+                except:
+                    print("Error Please enter info again")
+                    continue
+                accountCheck = (login_manager.login(username, password))
+                print(accountCheck)
+                if accountCheck == "Invalid Credentials Entered":
+                    print("please Try again")
+                    continue
+                else:
+                    break
             #if user chooses create, have them create account
         elif choice == "create":
-            username = input("Choose a username: ")
-            password = input("Choose a password: ")
+            username = input("Choose a username: ").strip()
+            password = input("Choose a password: ").strip()
+            os.mkdir(f"user-Docs\\{username}")
             print(account_manager.createAccount(username, password))
             #make sure user inputs valid choice
         else:
             print("Invalid choice. Please type 'login' or 'create'.")
-        
-        #here program ends if they do nt want to continue
-        if input("Do you want to continue? (yes/no): ").lower() == "no":
-            break
+            continue
+        #here program ends if they do not want to continue
+        while loginDone not in validAnswers["all"]:
+            loginDone = input("Do you want to continue? (yes/no): ").lower()
+        break    
+    return loginDone,username
 #call main function so user can login or create account
-main()
+
 
 #end of Sign in page code
 
@@ -131,7 +152,26 @@ def listTextFiles(directory):
         filePath = os.path.join(directory, filename)
         if os.path.isfile(filePath):
             textFiles.append(filePath)
-            print(textFiles)
+            makeFile = ""
+            while makeFile not in validAnswers["all"]: #asks user if they want to make a new file
+                makeFile = input("Would you like to create a file yes/no: ").lower().strip()
+            if makeFile in validAnswers["no"]:
+                while True:
+                    print(textFiles)
+                    selectedFile = input("Please Enter the name of the file you want with out .txt: ") #asks user to name a to open file
+                    selectedFile = (f"user-Docs\\{username}\\{selectedFile}.txt")
+                    print(f"you have selected {selectedFile}")
+                    if selectedFile in textFiles:
+                        break
+                    else:
+                        print("Please enter a valid file name\n")
+                        continue
+                break
+            if makeFile in validAnswers["yes"]: #makes new file from user input
+                filename = input("enter the your file name: ")
+                filename = open(f"user-Docs\\{username}\\{filename}.txt","x")
+                print(f"{filename} Succesfully Created")
+                break
     return textFiles
 
 def selectOperationalFile(directory):
@@ -144,13 +184,21 @@ def selectOperationalFile(directory):
         return None
 
 
-listTextFiles(f"user-Docs\\{username}")
+
 
 #end of file selector functions
 
-#Text editor code starts here
+                                                                                                    #code starts HERE
+loginDone,username = main()
+if loginDone in validAnswers["yes"]:
+    print("Continuing to file selector\n")
+    selectedFile = listTextFiles(f"user-Docs\\{username}")
+elif loginDone in validAnswers["no"]:
+    print("Quitting Program............")
+    os._exit(0)
+
+                                                                                                    #Text editor code starts here
 #Text editor functions
-selectedFile = (r"user-Docs\test.txt") #used for testing before file selector is done
 def readFile(): #reads the file out to the user
     
     #selected file goes into function
@@ -171,7 +219,7 @@ def openFile(): #used to ask user if they want to edit or read the file
     while True:
         try:
             validResponses = ["1","2","read","edit"]
-            print("Would you like \n1) Read \n2) Edit") #asks user if they would like to edit or read
+            print("Would you like to \n1) Read \n2) Edit") #asks user if they would like to edit or read
             userResponse = input("Enter your response: ").strip().lower() #gets user to input
             if userResponse in validResponses: #checks if response is valid
                 break #if response is valid loops
@@ -208,6 +256,8 @@ while True:
     restart = restartCode() #runs restart code function to see if the user wants to pick a new file
         
     if restart in validAnswers["no"]:
+        if input("Would you like to quit the program? ") in validAnswers["yes"]:
+            os._exit(0)
         continue
     elif restart in validAnswers["yes"]:
-        print("")
+        selectedFile = listTextFiles(f"user-Docs\\{username}")

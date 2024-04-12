@@ -33,8 +33,8 @@ def selectOperationalFile(directory):
     else:
         return None
 
-username = "jack"
-listTextFiles(f"user-Docs\\{username}")
+username = "jack" #used for testing
+listTextFiles(f"user-Docs\\{username}") #used for testing 
 ############
 # How this code can be used with the complete code 
 ############
