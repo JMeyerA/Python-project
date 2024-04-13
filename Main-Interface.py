@@ -297,6 +297,5 @@ while True:
         if input("Would you like to quit the program? Y/N ") in validAnswers["yes"]:
             os._exit(0)
         continue
-    elif restart in validAnswers["yes"]:
-        print(username)
+    elif restart in validAnswers["yes"]: 
         testFiles, selectedFile = listTextFiles(r"user-Docs\{0}".format(username))
